@@ -22,5 +22,23 @@
   },
   "footer": {
     "copyright": "© {year} Shuru. All rights reserved."
+  },
+  "insights": {
+    "title": "Insights",
+    "categories": "Categories",
+    "featured": "Featured",
+    "readMore": "Read More",
+    "empty": "No articles found in this category.",
+    "all": "All"
+  },
+  "shared": {
+    "challengesSection": {
+      "challengeLabel": "The Challenge",
+      "interventionLabel": "Our Intervention",
+      "resultLabel": "The Result"
+    }
+  },
+  "common": {
+    "back": "Back"
   }
 }

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { StrapiChallengeCard } from "@/strapi/page";
 
 interface ChallengesSectionProps {
@@ -11,6 +12,8 @@ interface ChallengesSectionProps {
 }
 
 export function ChallengesSection({ title, introText, challenges }: ChallengesSectionProps) {
+  const t = useTranslations("shared.challengesSection");
+
   return (
     <section className="py-24 bg-gradient-to-b from-background to-muted/20 overflow-hidden relative">
       <div className="container mx-auto px-4 md:px-6">
@@ -55,7 +58,7 @@ export function ChallengesSection({ title, introText, challenges }: ChallengesSe
                         <AlertCircle className="w-4 h-4" />
                       </span>
                       <h4 className="font-semibold text-destructive uppercase tracking-widest text-xs">
-                        The Challenge
+                        {t("challengeLabel")}
                       </h4>
                     </div>
                     <p className="text-xl md:text-2xl font-medium leading-snug text-foreground">
@@ -67,7 +70,7 @@ export function ChallengesSection({ title, introText, challenges }: ChallengesSe
                     <div className="flex items-center gap-2 mb-2">
                       <ArrowRight className="w-4 h-4 text-primary" />
                       <h4 className="font-semibold text-primary uppercase tracking-widest text-xs">
-                        Our Intervention
+                        {t("interventionLabel")}
                       </h4>
                     </div>
                     <p className="text-muted-foreground text-lg leading-relaxed">
@@ -82,7 +85,7 @@ export function ChallengesSection({ title, introText, challenges }: ChallengesSe
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <h4 className="font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest text-xs mb-4">
-                    The Result
+                    {t("resultLabel")}
                   </h4>
                   <p className="text-2xl md:text-3xl font-bold text-foreground">
                     {challenge.result}

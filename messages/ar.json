@@ -22,5 +22,23 @@
   },
   "footer": {
     "copyright": "© {year} شروع. جميع الحقوق محفوظة."
+  },
+  "insights": {
+    "title": "الرؤى",
+    "categories": "الفئات",
+    "featured": "مميز",
+    "readMore": "اقرأ المزيد",
+    "empty": "لم يتم العثور على مقالات في هذه الفئة.",
+    "all": "الكل"
+  },
+  "shared": {
+    "challengesSection": {
+      "challengeLabel": "التحدي",
+      "interventionLabel": "تدخلنا",
+      "resultLabel": "النتيجة"
+    }
+  },
+  "common": {
+    "back": "العودة"
   }
 }

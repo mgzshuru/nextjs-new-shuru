@@ -13,9 +13,9 @@ type RevalidateBody = {
 const MODEL_TO_TAGS: Record<string, string|null> = {
   global: GLOBAL_SETTINGS_TAG,
   about: "about",
-  article: "article",
+  article: "articles",
   author: "author",
-  category: "category",
+  category: "categories",
   footer: FOOTER_SETTINGS_TAG,
   header: HEADER_SETTINGS_TAG,
   home: HOME_TAG,

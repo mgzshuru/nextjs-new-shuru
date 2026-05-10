@@ -364,3 +364,83 @@ export const getPodcastBySlugCached = unstable_cache(
   [PODCAST_TAG],
   { revalidate: 3600 }
 );
+
+export type StrapiCategory = {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  description?: string;
+  articles?: StrapiArticle[];
+  children_categories?: StrapiCategory[];
+  parent_category?: StrapiCategory;
+};
+
+async function fetchCategoryBySlug(slug: string, locale: string): Promise<StrapiCategory | null> {
+  const params = new URLSearchParams();
+  params.append("locale", locale);
+  params.append("filters[slug][$eq]", slug);
+  params.append("populate[articles][populate][cover_image]", "true");
+  params.append("populate[children_categories]", "true");
+  params.append("populate[parent_category]", "true");
+
+  const response = await fetch(`${getStrapiBaseUrl()}/api/categories?${params.toString()}`, {
+    headers: getStrapiRequestHeaders(),
+    next: { tags: ["categories", slug] },
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) return null;
+    throw new Error(`Failed to fetch category ${slug} (${response.status})`);
+  }
+
+  const payload = await response.json();
+  const item = payload.data?.[0];
+  if (!item) return null;
+
+  if (item.articles) {
+    item.articles = item.articles.map((art: any) => {
+      if (art.cover_image) {
+        art.cover_image.url = toAbsoluteUrl(extractMediaUrl(art.cover_image));
+      }
+      return art;
+    });
+  }
+
+  return item as StrapiCategory;
+}
+
+export const getCategoryBySlugCached = unstable_cache(
+  async (slug: string, locale: Locale) => fetchCategoryBySlug(slug, locale),
+  ["categories"],
+  { revalidate: 3600 }
+);
+
+async function fetchCategoriesList(locale: string): Promise<StrapiCategory[]> {
+  const params = new URLSearchParams();
+  params.append("locale", locale);
+  params.append("populate[children_categories]", "true");
+  params.append("populate[parent_category]", "true");
+  params.append("populate[articles][populate][cover_image]", "true");
+  params.append("sort[0]", "createdAt:desc");
+
+  const response = await fetch(`${getStrapiBaseUrl()}/api/categories?${params.toString()}`, {
+    headers: getStrapiRequestHeaders(),
+    next: { tags: ["categories"] },
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) return [];
+    if (response.status === 401) return [];
+    throw new Error(`Failed to fetch categories list (${response.status})`);
+  }
+
+  const payload = await response.json();
+  return payload.data || [];
+}
+
+export const getCategoriesCached = unstable_cache(
+  async (locale: Locale) => fetchCategoriesList(locale),
+  ["categories"],
+  { revalidate: 3600, tags: ["categories"] }
+);
