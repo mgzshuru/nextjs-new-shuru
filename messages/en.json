@@ -97,5 +97,22 @@
       "invalidEmail": "Please enter a valid email address",
       "minLength": "Must be at least {min} characters"
     }
+  },
+  "subscribe": {
+    "title": "Subscribe to our Newsletter",
+    "description": "Stay updated with the latest insights, news, and project releases from Shuru.",
+    "form": {
+      "fullName": "Full Name *",
+      "email": "Email *",
+      "submit": "Subscribe",
+      "submitting": "Subscribing...",
+      "success": "Thank you for subscribing! Please check your email to confirm.",
+      "error": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Please enter a valid email address",
+      "minLength": "Must be at least {min} characters"
+    }
   }
 }
