@@ -15,8 +15,8 @@ export const localeCookie = "locale";
 export const rtlLocales = new Set<Locale>(["ar"]);
 
 export const languageLabels: Record<Locale, string> = {
-  en: "English",
-  ar: "العربية",
+  en: "En",
+  ar: "Ar",
 };
 
 export const hrefLang: Record<Locale, string> = {

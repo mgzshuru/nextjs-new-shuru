@@ -215,7 +215,7 @@ export function HeaderNavigation({
               variant="ghost"
               size="icon"
               className={cn(
-                "h-9 w-9 sm:h-10 sm:w-10 flex items-center justify-center rounded-xl border border-transparent transition-all cursor-pointer",
+                "hidden sm:flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl border border-transparent transition-all cursor-pointer",
                 user
                   ? "bg-primary/10 text-primary hover:bg-primary/20 border-primary/20"
                   : "hover:border-border"
@@ -233,72 +233,85 @@ export function HeaderNavigation({
 
         <div
           className={cn(
-            "hidden sm:flex overflow-visible border-t border-border/70 transition-all duration-300 items-end justify-center",
-            isScrolled && !isHovered ? "max-h-0 opacity-0" : "max-h-[200px] pt-2 opacity-100"
+            "border-t border-border/70 transition-all duration-300",
+            isScrolled && !isHovered ? "max-h-0 opacity-0 overflow-hidden" : "max-h-[200px] pt-1.5 sm:pt-2 opacity-100"
           )}
         >
-          <ul className="flex flex-row flex-wrap items-end justify-center gap-x-3 gap-y-1 text-sm">
-            {headerItems.map((item) => {
-              const hasSubItems = item.subItems.length > 0;
+          {/* Scrollable nav strip — swipeable on mobile, centered on desktop */}
+          <div className="overflow-x-auto scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none]">
+            <ul className="flex flex-row items-end justify-start sm:justify-center gap-x-0 sm:gap-x-1 text-xs sm:text-sm min-w-max sm:min-w-0 mx-auto px-1 sm:px-0">
+              {headerItems.map((item) => {
+                const hasSubItems = item.subItems.length > 0;
+                const isActive = isItemActive(item.url);
 
-              return (
-                <li
-                  key={`${item.label}-${item.url}`}
-                  className="header-dropdown-item relative border-b-2 border-transparent transition-colors duration-300 hover:border-primary"
-                  onMouseEnter={() => setOpenDropdown(item.label)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  {hasSubItems ? (
-                    <button
-                      className="inline-flex min-h-11 items-center gap-1 px-2 py-1 text-foreground transition-colors hover:text-primary"
-                      onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
-                    >
-                      {item.label}
-                      <ChevronDown
+                return (
+                  <li
+                    key={`${item.label}-${item.url}`}
+                    className={cn(
+                      "header-dropdown-item relative border-b-2 transition-colors duration-300",
+                      isActive ? "border-primary" : "border-transparent hover:border-primary"
+                    )}
+                    onMouseEnter={() => setOpenDropdown(item.label)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    {hasSubItems ? (
+                      <button
                         className={cn(
-                          "h-4 w-4 transition-transform",
-                          openDropdown === item.label ? "rotate-180" : "rotate-0"
+                          "inline-flex min-h-10 items-center gap-0.5 px-2 sm:px-2.5 py-1 transition-colors whitespace-nowrap",
+                          isActive ? "text-primary font-medium" : "text-foreground hover:text-primary"
                         )}
-                      />
-                    </button>
-                  ) : (
-                    <Link
-                      href={toLocaleAwareUrl(item.url, locale)}
-                      {...getLinkProps(item.openInNewTab)}
-                      className="inline-flex min-h-11 items-center px-2 py-1 text-foreground transition-colors hover:text-primary"
-                    >
-                      {item.label}
-                    </Link>
-                  )}
+                        onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={cn(
+                            "h-3.5 w-3.5 transition-transform",
+                            openDropdown === item.label ? "rotate-180" : "rotate-0"
+                          )}
+                        />
+                      </button>
+                    ) : (
+                      <Link
+                        href={toLocaleAwareUrl(item.url, locale)}
+                        {...getLinkProps(item.openInNewTab)}
+                        className={cn(
+                          "inline-flex min-h-10 items-center px-2 sm:px-2.5 py-1 transition-colors whitespace-nowrap",
+                          isActive ? "text-primary font-medium" : "text-foreground hover:text-primary"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
 
-                  {hasSubItems ? (
-                    <div
-                      className={cn(
-                        "absolute start-1/2 top-[calc(100%+0.4rem)] z-50 w-64 ltr:-translate-x-1/2 rtl:translate-x-1/2 rounded-lg border border-border bg-popover/95 shadow-xl backdrop-blur transition-all duration-500",
-                        openDropdown === item.label
-                          ? "visible translate-y-0 opacity-100"
-                          : "invisible -translate-y-1 opacity-0 pointer-events-none"
-                      )}
-                    >
-                      <div className="py-2">
-                        {item.subItems.map((subItem) => (
-                          <Link
-                            key={`${subItem.label}-${subItem.url}`}
-                            href={toLocaleAwareUrl(subItem.url, locale)}
-                            {...getLinkProps(subItem.openInNewTab)}
-                            className="flex min-h-11 items-center px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-primary"
-                            onClick={() => setOpenDropdown(null)}
-                          >
-                            {subItem.label}
-                          </Link>
-                        ))}
+                    {hasSubItems ? (
+                      <div
+                        className={cn(
+                          "absolute start-0 top-[calc(100%+0.4rem)] z-50 w-56 sm:w-64 sm:ltr:-translate-x-1/4 sm:rtl:translate-x-1/4 rounded-lg border border-border bg-popover/95 shadow-xl backdrop-blur transition-all duration-300",
+                          openDropdown === item.label
+                            ? "visible translate-y-0 opacity-100"
+                            : "invisible -translate-y-1 opacity-0 pointer-events-none"
+                        )}
+                      >
+                        <div className="py-2">
+                          {item.subItems.map((subItem) => (
+                            <Link
+                              key={`${subItem.label}-${subItem.url}`}
+                              href={toLocaleAwareUrl(subItem.url, locale)}
+                              {...getLinkProps(subItem.openInNewTab)}
+                              className="flex min-h-10 items-center px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent hover:text-primary"
+                              onClick={() => setOpenDropdown(null)}
+                            >
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ) : null}
-                </li>
-              );
-            })}
-          </ul>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
 

@@ -1,14 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Languages } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { locales, languageLabels, type Locale } from '@/lib/i18n';
 import { setLocale } from '@/lib/locale-actions';
 import { usePathname } from 'next/navigation';
@@ -21,6 +14,10 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
   const pathname = usePathname();
   const [isPending, startTransition] = React.useTransition();
 
+  // Find the next locale to switch to
+  const currentIndex = locales.indexOf(currentLocale);
+  const nextLocale = locales[(currentIndex + 1) % locales.length];
+
   const buildLocalizedPath = React.useCallback(
     (targetLocale: Locale) => {
       const segments = pathname.split('/').filter(Boolean);
@@ -30,32 +27,23 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
     [pathname]
   );
 
-  const handleLocaleChange = (locale: Locale) => {
+  const handleToggle = () => {
     startTransition(async () => {
-      await setLocale(locale);
-      window.location.href = buildLocalizedPath(locale);
+      await setLocale(nextLocale);
+      window.location.href = buildLocalizedPath(nextLocale);
     });
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" disabled={isPending} className="h-9 w-9 sm:h-9 sm:w-9">
-          <Languages className="h-[1.2rem] w-[1.2rem]" />
-          <span className="sr-only">Switch language</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {locales.map((locale) => (
-          <DropdownMenuItem
-            key={locale}
-            onClick={() => handleLocaleChange(locale)}
-            className={currentLocale === locale ? 'bg-accent' : ''}
-          >
-            {languageLabels[locale]}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant="outline"
+      size="sm"
+      className="h-9 min-w-[2.5rem] px-2 text-xs font-semibold tracking-wide"
+      onClick={handleToggle}
+      disabled={isPending}
+      aria-label={`Switch to ${languageLabels[nextLocale]}`}
+    >
+      {languageLabels[nextLocale]}
+    </Button>
   );
 }
