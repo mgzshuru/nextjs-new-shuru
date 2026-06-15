@@ -55,6 +55,9 @@ export function ThemeLogo({
 
   // Render both server-side; CSS dark class controls visibility.
   // This avoids any JS-dependent render and prevents the LCP flash.
+  // suppressHydrationWarning is required because next/image can generate
+  // slightly different srcSet/className attributes between SSR and hydration
+  // for theme-dependent images — the visual result is identical.
   return (
     <>
       {/* Light logo: visible in light mode, hidden in dark mode */}
@@ -67,6 +70,7 @@ export function ThemeLogo({
         priority={priority}
         sizes={sizes}
         quality={quality}
+        suppressHydrationWarning
       />
       {/* Dark logo: hidden in light mode, visible in dark mode */}
       <Image
@@ -78,7 +82,7 @@ export function ThemeLogo({
         priority={priority}
         sizes={sizes}
         quality={quality}
-        aria-hidden="true"
+        suppressHydrationWarning
       />
     </>
   );

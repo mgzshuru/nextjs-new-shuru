@@ -46,7 +46,7 @@ export function MagazineGrid({
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-      {issues.map((issue) => (
+      {issues.map((issue, index) => (
         <div
           key={issue.id}
         >
@@ -67,8 +67,10 @@ export function MagazineGrid({
                   src={issue.cover_image.url}
                   alt={issue.title || issue.title}
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 34vw, (max-width: 1024px) 26vw, 21vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority={index < 5}
+                  loading={index < 5 ? 'eager' : 'lazy'}
                   placeholder="blur"
                   blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSIxMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSIxMSIgZmlsbD0iI2UyZThmMCIvPjwvc3ZnPg=="
                 />

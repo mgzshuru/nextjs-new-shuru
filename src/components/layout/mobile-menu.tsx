@@ -154,8 +154,12 @@ export default function MobileMenu({ isOpen, onClose, locale, items, latestMagaz
                       src={latestMagazine.cover_image.url}
                       alt={latestMagazine.title}
                       fill
-                      sizes="(max-width: 768px) 280px, 300px"
+                      sizes="255px"
+                      loading="lazy"
+                      quality={75}
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      placeholder="blur"
+                      blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSIxMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSIxMSIgZmlsbD0iI2UyZThmMCIvPjwvc3ZnPg=="
                     />
                   ) : null}
                   {latestMagazine.issue_number && (
