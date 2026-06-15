@@ -10,6 +10,7 @@ type ThemeLogoProps = {
   height?: number;
   priority?: boolean;
   sizes?: string;
+  quality?: number;
 };
 
 export function ThemeLogo({
@@ -21,6 +22,7 @@ export function ThemeLogo({
   height = 120,
   priority = false,
   sizes,
+  quality = 75,
 }: ThemeLogoProps) {
   if (!lightLogoUrl && !darkLogoUrl) {
     return <span className="text-lg font-semibold tracking-wide">Shuru</span>;
@@ -41,6 +43,7 @@ export function ThemeLogo({
           className={`${className} dark:hidden`}
           priority={priority}
           sizes={sizes}
+          quality={quality}
         />
       )}
       {effectiveDarkUrl && (
@@ -52,6 +55,7 @@ export function ThemeLogo({
           className={`${className} hidden dark:block`}
           priority={priority}
           sizes={sizes}
+          quality={quality}
         />
       )}
     </>

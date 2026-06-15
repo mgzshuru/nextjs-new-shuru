@@ -4,6 +4,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowSVG: true,
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: "http",

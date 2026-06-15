@@ -71,6 +71,7 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
             width={640}
             height={410}
             sizes="63px"
+            quality={70}
           />
           {description && (
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
