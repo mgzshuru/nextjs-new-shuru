@@ -197,6 +197,7 @@ export function HeaderNavigation({
                 alt={logoAlt}
                 className="h-14 w-auto pb-1 object-contain sm:h-16 lg:h-20 max-w-[240px] sm:max-w-[300px] lg:max-w-[400px]"
                 priority={true}
+                sizes="(max-width: 640px) 240px, (max-width: 1024px) 300px, 400px"
               />
             </Link>
           </div>
