@@ -55,7 +55,7 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
   const hardcodedCopyright = t("copyright", { year: currentYear });
 
   return (
-    <footer className="w-full relative overflow-hidden bg-slate-50 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-800/50 py-12 sm:py-16 px-4 sm:px-6">
+    <footer className="w-full relative overflow-hidden bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800/50 py-12 sm:py-16 px-4 sm:px-6">
       {/* Subtle top glow */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
       
@@ -74,7 +74,7 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
             quality={85}
           />
           {description && (
-            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               {description}
             </p>
           )}
@@ -86,7 +86,7 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-12 w-12 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transform hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
+                  className="h-12 w-12 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transform hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
                   aria-label={social.platform}
                 >
                   <SocialIcon platform={social.platform} />
@@ -110,7 +110,7 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
                       href={link.url}
                       target={link.openInNewTab ? "_blank" : "_self"}
                       rel={link.openInNewTab ? "noopener noreferrer" : undefined}
-                      className="group flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors duration-300"
+                      className="group flex items-center text-sm text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors duration-300"
                     >
                       <span className="relative transform transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
                         {link.label}
@@ -125,8 +125,8 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-600 dark:text-slate-400" dir="ltr">
-        <p className="font-medium text-slate-400">{hardcodedCopyright}</p>
+      <div className="max-w-7xl mx-auto mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-600 dark:text-slate-300" dir="ltr">
+        <p className="font-medium text-slate-600 dark:text-slate-400">{hardcodedCopyright}</p>
 
         {bottomLinks && bottomLinks.length > 0 && (
           <ul className="flex flex-wrap justify-center gap-6">
