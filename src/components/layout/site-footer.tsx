@@ -70,7 +70,7 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
             className="h-10 w-auto object-contain transition-transform duration-300 hover:scale-105"
             width={640}
             height={410}
-            sizes="180px"
+            sizes="100px"
             quality={85}
           />
           {description && (
