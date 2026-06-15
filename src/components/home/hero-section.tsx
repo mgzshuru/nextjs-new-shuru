@@ -1,9 +1,6 @@
-'use client';
-
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { type Locale } from '@/lib/i18n';
-import { motion } from 'framer-motion';
 
 export function HeroSection({ hero, locale }: { hero: import('@/strapi/home').StrapiHeroBlock; locale: Locale }) {
   const isRtl = locale === 'ar';
@@ -16,12 +13,7 @@ export function HeroSection({ hero, locale }: { hero: import('@/strapi/home').St
       <div className="absolute top-1/4 -start-32 -z-10 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-30"></div>
       <div className="absolute top-1/4 -end-32 -z-10 h-[500px] w-[500px] rounded-full bg-accent/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-30"></div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center"
-      >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <h1 className="mx-auto max-w-4xl text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight py-2 leading-tight">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 dark:from-white dark:via-gray-200 dark:to-gray-400 drop-shadow-sm">
             {hero.title}
@@ -52,7 +44,7 @@ export function HeroSection({ hero, locale }: { hero: import('@/strapi/home').St
             </Link>
           )}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

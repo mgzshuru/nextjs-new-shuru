@@ -1,4 +1,3 @@
-'use client';
 
 import { type Locale } from '@/lib/i18n';
 import { type StrapiHomeEntry, type StrapiTestimonial } from '@/strapi/home';
