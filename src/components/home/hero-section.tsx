@@ -10,8 +10,8 @@ export function HeroSection({ hero, locale }: { hero: import('@/strapi/home').St
     <section className="relative overflow-hidden bg-background py-16 sm:py-24 lg:py-32">
       {/* Elegant background gradients and blurs */}
       <div className="absolute inset-x-0 top-0 h-[800px] bg-gradient-to-b from-primary/10 via-primary/5 to-transparent dark:from-primary/20 dark:via-primary/5" />
-      <div className="absolute top-1/4 -start-32 -z-10 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-30"></div>
-      <div className="absolute top-1/4 -end-32 -z-10 h-[500px] w-[500px] rounded-full bg-accent/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-30"></div>
+      <div className="absolute top-1/4 -start-32 -z-10 h-[500px] w-[500px] rounded-full bg-primary/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-30 gpu-accelerated"></div>
+      <div className="absolute top-1/4 -end-32 -z-10 h-[500px] w-[500px] rounded-full bg-accent/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen opacity-50 dark:opacity-30 gpu-accelerated"></div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <h1 className="mx-auto max-w-4xl text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight py-2 leading-tight">

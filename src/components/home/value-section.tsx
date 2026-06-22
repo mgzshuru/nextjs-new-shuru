@@ -31,7 +31,7 @@ export function ValueSection({ value }: { value: import('@/strapi/home').StrapiV
   return (
     <section className="py-16 sm:py-24 lg:py-32 bg-background relative overflow-hidden flex flex-col items-center">
       {/* Decorative Glow */}
-      <div className="absolute top-1/2 start-0 -translate-y-1/2 -ms-32 h-96 w-96 rounded-full bg-primary/10 blur-[100px] -z-10"></div>
+      <div className="absolute top-1/2 start-0 -translate-y-1/2 -ms-32 h-96 w-96 rounded-full bg-primary/10 blur-[100px] -z-10 gpu-accelerated"></div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full z-10">
         <div
@@ -56,7 +56,7 @@ export function ValueSection({ value }: { value: import('@/strapi/home').StrapiV
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="w-full max-w-3xl p-10 sm:p-14 md:p-20 bg-background/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/50 flex flex-col items-center text-center relative overflow-hidden group hover:border-primary/50 transition-colors"
+                className="w-full max-w-3xl p-10 sm:p-14 md:p-20 bg-card/95 backdrop-blur-none md:bg-background/60 md:backdrop-blur-xl rounded-3xl shadow-2xl border border-border/50 flex flex-col items-center text-center relative overflow-hidden group hover:border-primary/50 transition-colors"
               >
                 {/* Subtle Glow */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-50 pointer-events-none group-hover:opacity-100 transition-opacity duration-500" />

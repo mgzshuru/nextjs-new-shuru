@@ -55,7 +55,7 @@ export function TestimonialsSection({
                 transition={{ duration: 0.2 }}
                 className="group relative flex flex-col justify-between rounded-3xl border border-border/50 bg-card p-8 sm:p-10 md:p-14 shadow-sm hover:shadow-xl hover:shadow-primary/5 hover:border-primary/30 transition-all duration-300 min-h-[300px] overflow-hidden"
               >
-                <div className="absolute top-0 end-0 -m-8 h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-primary/5 blur-3xl transition-all duration-300 group-hover:bg-primary/10"></div>
+                <div className="absolute top-0 end-0 -m-8 h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-primary/5 blur-3xl transition-all duration-300 group-hover:bg-primary/10 gpu-accelerated"></div>
                 
                 <Quote className="h-12 w-12 text-primary/40 mb-8 transform group-hover:scale-110 group-hover:text-primary/60 transition-all duration-300" />
                 

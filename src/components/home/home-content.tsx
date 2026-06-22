@@ -11,7 +11,7 @@ type HomeContentProps = {
 
 export function HomeContent({ locale, homeData, testimonials }: HomeContentProps) {
   return (
-    <div className="flex w-full flex-col min-h-dvh gpu-accelerated">
+    <div className="flex w-full flex-col min-h-dvh">
       {homeData.blocks?.map((block, index) => {
         const uniqueKey = `${block.__component}-${block.id}-${index}`;
         // @ts-ignore - The block definitions overlap perfectly
