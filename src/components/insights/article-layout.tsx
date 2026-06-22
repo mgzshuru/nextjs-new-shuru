@@ -39,7 +39,7 @@ export function ArticleLayout({
     return (
       <div className="container mx-auto px-4 grid lg:grid-cols-12 gap-8 lg:gap-16">
         {/* Article Content */}
-        <main id="article-content" className="lg:col-span-8 order-2 lg:order-1" dir="rtl">
+        <main id="article-content" className="lg:col-span-8 order-2 lg:order-1" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
           {children}
         </main>
 
@@ -135,7 +135,7 @@ export function ArticleLayout({
   return (
     <div className="container mx-auto px-4 max-w-4xl">
       {/* Article Content - Full Width */}
-      <main id="article-content" dir="rtl">
+      <main id="article-content" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
         {children}
 
         {/* Share Buttons */}

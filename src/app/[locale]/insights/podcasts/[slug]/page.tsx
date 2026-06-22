@@ -84,6 +84,7 @@ export default async function PodcastPage({ params }: Props) {
               <video
                 src={podcast.video_file.url}
                 controls
+                playsInline
                 className="absolute inset-0 w-full h-full object-cover"
                 poster={podcast.cover_image?.url || undefined}
               />

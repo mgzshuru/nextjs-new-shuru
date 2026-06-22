@@ -89,8 +89,20 @@ export default function SearchOverlay({ isOpen, onClose, locale, items }: Search
     }
 
     document.body.style.overflow = "hidden";
+
+    // Intercept touchmove events on the body to prevent scrolling the underlying page
+    const preventBackgroundScroll = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.scrollable-container')) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
+
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener('touchmove', preventBackgroundScroll);
     };
   }, [isOpen]);
 
@@ -166,7 +178,7 @@ export default function SearchOverlay({ isOpen, onClose, locale, items }: Search
     : [];
 
   return (
-    <div className="fixed inset-0 z-[70] bg-background/90 backdrop-blur-md overflow-y-auto" dir={locale === "ar" ? "rtl" : "ltr"}>
+    <div className="fixed inset-0 z-[70] bg-background/90 backdrop-blur-md overflow-y-auto overscroll-contain scrollable-container" dir={locale === "ar" ? "rtl" : "ltr"}>
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8 min-h-dvh flex flex-col">
         {/* Search Header Input Bar */}
         <div className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card p-3 shadow-lg">

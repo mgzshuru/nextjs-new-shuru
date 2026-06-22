@@ -79,7 +79,7 @@ export function TableOfContents({ articleContentId }: { articleContentId: string
       </h3>
       <div
         ref={scrollContainerRef}
-        className="max-h-[calc(100vh-16rem)] overflow-y-auto overflow-x-hidden pe-2 scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-transparent"
+        className="max-h-[calc(100dvh-16rem)] overflow-y-auto overflow-x-hidden pe-2 scrollbar-thin scrollbar-thumb-neutral-200 scrollbar-track-transparent"
       >
         <ul className="space-y-0 relative before:absolute before:inset-y-0 before:start-0 before:w-[2px] before:bg-neutral-100">
           {items.map(item => (

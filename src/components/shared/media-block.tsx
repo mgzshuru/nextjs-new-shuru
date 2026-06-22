@@ -26,6 +26,7 @@ export function MediaBlock({ block }: MediaBlockProps) {
             autoPlay
             loop
             muted
+            playsInline
             className="object-cover w-full h-full"
           />
         ) : (

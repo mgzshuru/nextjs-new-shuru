@@ -55,13 +55,23 @@ export default function MobileMenu({ isOpen, onClose, locale, items, latestMagaz
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!isOpen) return;
+
+    document.body.style.overflow = "hidden";
+
+    // Intercept touchmove events on the body to prevent scrolling the underlying page
+    const preventBackgroundScroll = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.scrollable-container')) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
+
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener('touchmove', preventBackgroundScroll);
     };
   }, [isOpen]);
   const t = useTranslations("insights");
@@ -93,7 +103,7 @@ export default function MobileMenu({ isOpen, onClose, locale, items, latestMagaz
 
       <aside
         className={cn(
-          "fixed inset-y-0 end-0 z-50 w-[280px] border-s border-border bg-card p-3 shadow-2xl transition-transform duration-300 transform-gpu sm:w-[320px] overflow-y-auto flex flex-col justify-between",
+          "fixed inset-y-0 end-0 z-50 w-[280px] border-s border-border bg-card p-3 shadow-2xl transition-transform duration-300 transform-gpu sm:w-[320px] overflow-y-auto flex flex-col justify-between overscroll-contain scrollable-container",
           isOpen ? "translate-x-0" : "ltr:translate-x-full rtl:-translate-x-full"
         )}
         aria-label="Mobile menu"
