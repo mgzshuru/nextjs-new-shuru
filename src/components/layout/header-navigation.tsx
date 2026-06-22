@@ -119,7 +119,7 @@ export function HeaderNavigation({
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       const target = event.target as HTMLElement;
 
       if (!target.closest(".header-dropdown-item")) {
@@ -128,11 +128,11 @@ export function HeaderNavigation({
     };
 
     if (openDropdown !== null) {
-      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("pointerdown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("pointerdown", handleClickOutside);
     };
   }, [openDropdown]);
 
@@ -286,7 +286,7 @@ export function HeaderNavigation({
                     {hasSubItems ? (
                       <div
                         className={cn(
-                          "absolute start-0 top-[calc(100%+0.4rem)] z-50 w-56 sm:w-64 sm:ltr:-translate-x-1/4 sm:rtl:translate-x-1/4 rounded-lg border border-border bg-popover/95 shadow-xl backdrop-blur transition-all duration-300",
+                          "absolute start-0 top-[calc(100%+0.4rem)] z-50 w-56 sm:w-64 sm:-translate-x-1/4 sm:rtl:translate-x-1/4 rounded-lg border border-border bg-popover/95 shadow-xl backdrop-blur transition-all duration-300",
                           openDropdown === item.label
                             ? "visible translate-y-0 opacity-100"
                             : "invisible -translate-y-1 opacity-0 pointer-events-none"

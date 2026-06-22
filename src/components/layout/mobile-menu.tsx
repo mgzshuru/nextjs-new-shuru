@@ -104,7 +104,7 @@ export default function MobileMenu({ isOpen, onClose, locale, items, latestMagaz
       <aside
         className={cn(
           "fixed inset-y-0 end-0 z-50 w-[280px] border-s border-border bg-card p-3 shadow-2xl transition-transform duration-300 transform-gpu sm:w-[320px] overflow-y-auto flex flex-col justify-between overscroll-contain scrollable-container",
-          isOpen ? "translate-x-0" : "ltr:translate-x-full rtl:-translate-x-full"
+          isOpen ? "translate-x-0" : "translate-x-full rtl:-translate-x-full"
         )}
         aria-label="Mobile menu"
       >
@@ -211,7 +211,7 @@ export default function MobileMenu({ isOpen, onClose, locale, items, latestMagaz
                   </p>
                   <span className="inline-flex items-center text-xs font-medium text-primary mt-1 gap-1.5">
                     {t("readLatest")}
-                    <ArrowIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1 ltr:group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5" />
+                    <ArrowIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5" />
                   </span>
                 </div>
               </Link>
