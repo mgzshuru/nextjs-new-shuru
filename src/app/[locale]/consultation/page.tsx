@@ -1,6 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { ConsultationForm } from "@/components/page/consultation-form";
-import { locales } from "@/lib/i18n";
+import { locales, type Locale, isLocale, defaultLocale } from "@/lib/i18n";
+import { buildMetadata } from "@/lib/seo";
 
 type ConsultationPageProps = Readonly<{
   params: Promise<{ locale: string }>;
@@ -8,6 +9,18 @@ type ConsultationPageProps = Readonly<{
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({ params }: ConsultationPageProps) {
+  const { locale: rawLocale } = await params;
+  const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
+  const t = await getTranslations({ locale, namespace: "consultation" });
+  return buildMetadata({
+    locale,
+    path: "/consultation",
+    title: t("title"),
+    description: t("description"),
+  });
 }
 
 export default async function ConsultationPage({ params }: ConsultationPageProps) {

@@ -2,6 +2,22 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { type Locale } from "@/lib/i18n";
 import { routing } from "@/i18n/routing";
+import { buildMetadata } from "@/lib/seo";
+
+type GenerateMetadataProps = {
+  params: Promise<{ locale: Locale }>;
+};
+
+export async function generateMetadata({ params }: GenerateMetadataProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "insights" });
+  return buildMetadata({
+    locale,
+    path: "/insights/podcasts",
+    title: t("tabs.podcasts") || "Podcasts",
+    description: t("tabs.subtitle") || "Stay updated with the latest insights.",
+  });
+}
 import { getPodcastsPaginatedCached } from "@/strapi/insights";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { SearchFilterControls } from "@/components/insights/search-filter-controls";

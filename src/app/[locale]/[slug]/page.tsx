@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing";
 import { getPageCached } from "@/strapi/page";
 import { getTestimonialsCached } from "@/strapi/home";
 import { PageContent } from "@/components/page/page-content";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -21,11 +22,19 @@ export async function generateMetadata({ params }: Props) {
   }
 
   const seo = page.seo;
-  return {
+  return buildMetadata({
+    locale,
+    path: `/${slug}`,
     title: seo?.meta_title || page.title,
     description: seo?.meta_description || "",
-    // We would map here seo details
-  };
+    keywords: seo?.meta_keywords ? seo.meta_keywords.split(",").map((k) => k.trim()) : undefined,
+    ogImage: seo?.og_image ? {
+      url: seo.og_image.url,
+      width: seo.og_image.width,
+      height: seo.og_image.height,
+      alt: seo.og_image.alternativeText,
+    } : undefined,
+  });
 }
 
 export default async function DynamicPage({ params }: Props) {

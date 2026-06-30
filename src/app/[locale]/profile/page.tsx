@@ -4,6 +4,7 @@ import { type Locale } from '@/lib/i18n';
 import { getMe } from '@/lib/actions/auth';
 import { getSavedInsightsAction } from '@/lib/actions/saved-insights';
 import { ProfileClient } from '@/components/profile/profile-client';
+import { buildMetadata } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -12,10 +13,13 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'auth' });
-  return {
+  return buildMetadata({
+    locale,
+    path: '/profile',
     title: t('profile') || 'User Profile',
     description: 'Manage your bookmarks and contact settings.',
-  };
+    noIndex: true,
+  });
 }
 
 export default async function ProfilePage({ params }: Props) {

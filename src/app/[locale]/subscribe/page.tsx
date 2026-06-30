@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SubscribeForm } from "@/components/page/subscribe-form";
-import { locales, isLocale, defaultLocale, siteUrl, type Locale } from "@/lib/i18n";
-import { getGlobalSettings } from "@/strapi/global";
+import { locales, isLocale, defaultLocale, type Locale } from "@/lib/i18n";
+import { buildMetadata } from "@/lib/seo";
 
 type SubscribePageProps = Readonly<{
   params: Promise<{ locale: string }>;
@@ -16,29 +16,13 @@ export async function generateMetadata({ params }: SubscribePageProps): Promise<
   const { locale: rawLocale } = await params;
   const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const t = await getTranslations({ locale, namespace: "subscribe" });
-  const globalData = await getGlobalSettings(locale);
 
-  const siteName = globalData?.siteName || "Shuru";
-  const title = `${t("title")} | ${siteName}`;
-  const description = t("description");
-
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `/${locale}/subscribe`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `${siteUrl}/${locale}/subscribe`,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
-  };
+  return buildMetadata({
+    locale,
+    path: "/subscribe",
+    title: t("title"),
+    description: t("description"),
+  });
 }
 
 export default async function SubscribePage({ params }: SubscribePageProps) {

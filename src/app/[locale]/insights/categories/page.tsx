@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { type Locale } from "@/lib/i18n";
 import { routing } from "@/i18n/routing";
 import { getCategoriesCached } from "@/strapi/insights";
 import Link from "next/link";
 import { MoveLeft, MoveRight } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
@@ -13,10 +13,13 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  return {
-    title: "Categories",
-    description: "Browse all insight categories",
-  };
+  const t = await getTranslations({ locale, namespace: "insights" });
+  return buildMetadata({
+    locale,
+    path: "/insights/categories",
+    title: t("categories") || "Categories",
+    description: t("tabs.subtitle") || "Browse all insight categories",
+  });
 }
 
 export default async function CategoriesIndexPage({ params }: Props) {

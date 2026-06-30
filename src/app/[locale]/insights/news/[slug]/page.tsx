@@ -7,6 +7,7 @@ import { ArticleLayout } from "@/components/insights/article-layout";
 import { RichTextBlock } from "@/components/shared/rich-text-block";
 import { getMe } from "@/lib/actions/auth";
 import { isInsightSavedAction } from "@/lib/actions/saved-insights";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -20,10 +21,23 @@ export async function generateMetadata({ params }: Props) {
     return { title: "Not Found" };
   }
 
-  return {
-    title: news.seo?.meta_title || news.title,
-    description: news.seo?.meta_description || news.description || undefined,
-  };
+  const seo = news.seo;
+  const ogImg = (news.cover_image || seo?.og_image) as any;
+
+  return buildMetadata({
+    locale,
+    path: `/insights/news/${slug}`,
+    title: seo?.meta_title || news.title,
+    description: seo?.meta_description || news.description || undefined,
+    keywords: seo?.meta_keywords ? seo.meta_keywords.split(",").map((k) => k.trim()) : undefined,
+    ogImage: ogImg ? {
+      url: ogImg.url,
+      width: ogImg.width,
+      height: ogImg.height,
+      alt: ogImg.alternativeText,
+    } : undefined,
+    type: "article",
+  });
 }
 
 export default async function NewsPage({ params }: Props) {

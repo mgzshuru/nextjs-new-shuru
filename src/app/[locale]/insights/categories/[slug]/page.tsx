@@ -10,21 +10,24 @@ import { ArticlesGrid } from "@/components/insights/articles-grid";
 import { cn } from "@/lib/utils";
 import { PaginationControls } from "@/components/ui/pagination-controls";
 import { SearchFilterControls } from "@/components/insights/search-filter-controls";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: Locale; slug: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale; slug: string }> }) {
   const { locale, slug } = await params;
   const category = await getCategoryBySlugCached(slug, locale);
   if (!category) return {};
 
-  return {
+  return buildMetadata({
+    locale,
+    path: `/insights/categories/${slug}`,
     title: category.name,
     description: category.description,
-  };
+  });
 }
 
 // Server Component for Subcategory Pills

@@ -8,9 +8,25 @@ import {
   getCategoriesForFilterCached,
 } from "@/strapi/insights";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { type Locale } from "@/lib/i18n";
 import { routing } from "@/i18n/routing";
+import { buildMetadata } from "@/lib/seo";
+
+type GenerateMetadataProps = {
+  params: Promise<{ locale: Locale }>;
+};
+
+export async function generateMetadata({ params }: GenerateMetadataProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "insights" });
+  return buildMetadata({
+    locale,
+    path: "/insights",
+    title: t("title") || "Insights",
+    description: t("tabs.subtitle") || "Stay updated with the latest insights.",
+  });
+}
 
 import { InsightsContent } from "@/components/insights/insights-content";
 import { getMe } from "@/lib/actions/auth";
