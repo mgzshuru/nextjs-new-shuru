@@ -11,6 +11,7 @@ import { getMessages, getLocale } from "next-intl/server";
 import { getDirection } from "@/lib/i18n";
 import { defaultLocale, isLocale, siteUrl, type Locale } from "@/lib/i18n";
 import { getGlobalSettings } from "@/strapi/global";
+import { getHeaderSettings } from "@/strapi/header";
 import { getOptimizedOgImageUrl } from "@/lib/seo";
 
 
@@ -39,14 +40,18 @@ export const viewport: Viewport = {
 export async function generateMetadata(): Promise<Metadata> {
   const requestedLocale = await getLocale();
   const locale: Locale = isLocale(requestedLocale) ? requestedLocale : defaultLocale;
-  const globalData = await getGlobalSettings(locale);
+  const [globalData, headerData] = await Promise.all([
+    getGlobalSettings(locale),
+    getHeaderSettings(locale),
+  ]);
 
   const siteName = globalData?.seoTitle?.trim() || globalData?.siteName?.trim() || "Shuru";
   const description = globalData?.seoDescription || globalData?.siteDescription || "Shuru multilingual platform.";
   const keywords = globalData?.seoKeywords ? globalData.seoKeywords.split(",").map((kw) => kw.trim()) : undefined;
   const ogImage = globalData?.ogImage;
   const ogImageUrl = ogImage?.url ?? undefined;
-  const finalOgImageUrl = getOptimizedOgImageUrl(ogImageUrl, siteName, description, locale);
+  const logoUrl = headerData?.darkLogoUrl || headerData?.lightLogoUrl;
+  const finalOgImageUrl = getOptimizedOgImageUrl(ogImageUrl, siteName, description, locale, logoUrl);
   const isOptimized = finalOgImageUrl && finalOgImageUrl.includes("/api/og");
 
   return {

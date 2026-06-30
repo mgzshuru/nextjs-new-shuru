@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
-import sharp from 'sharp';
 import { ImageResponse } from 'next/og';
+import fs from 'fs';
+import path from 'path';
 
 // Cache fonts in memory to avoid fetching them on every request
 let interRegular: ArrayBuffer | null = null;
@@ -37,75 +38,33 @@ async function getFonts(): Promise<{
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const imageUrl = searchParams.get('url');
 
-    // 1. Image Resize Mode (using sharp)
-    if (imageUrl) {
-      // Define allowed hosts for safety checks
-      const allowedHosts = [
-        'localhost',
-        '127.0.0.1',
-        'cms.shuru.sa',
-        'shuru-bkt.s3.eu-west-3.amazonaws.com',
-      ];
-
-      // Read the site URL from environment to allow frontend host requests as well
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-      if (siteUrl) {
-        try {
-          const parsedSiteUrl = new URL(siteUrl);
-          allowedHosts.push(parsedSiteUrl.hostname);
-        } catch (_) {
-          // Ignore invalid NEXT_PUBLIC_SITE_URL format
-        }
-      }
-
-      let parsedUrl: URL;
-      try {
-        parsedUrl = new URL(imageUrl);
-      } catch (_) {
-        return new Response('Invalid url parameter', { status: 400 });
-      }
-
-      const isHostAllowed = allowedHosts.some(
-        (host) => parsedUrl.hostname === host || parsedUrl.hostname.endsWith('.' + host)
-      );
-
-      if (!isHostAllowed) {
-        return new Response('Host not allowed', { status: 403 });
-      }
-
-      // Fetch the original image
-      const response = await fetch(imageUrl);
-      if (!response.ok) {
-        return new Response('Failed to fetch original image', { status: 500 });
-      }
-
-      const arrayBuffer = await response.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
-      // Resize and crop to exactly 1200x630 using sharp
-      const optimizedBuffer = await sharp(buffer)
-        .resize(1200, 630, {
-          fit: 'cover',
-          position: 'centre',
-        })
-        .jpeg({ quality: 85, progressive: true })
-        .toBuffer();
-
-      return new Response(new Uint8Array(optimizedBuffer), {
-        headers: {
-          'Content-Type': 'image/jpeg',
-          'Cache-Control': 'public, max-age=31536000, immutable',
-        },
-      });
-    }
-
-    // 2. Dynamic Branded Card Mode (using next/og ImageResponse)
+    // Dynamic Branded Card Mode (using next/og ImageResponse)
     const title = searchParams.get('title') || 'Shuru';
     const description = searchParams.get('description') || '';
     const locale = searchParams.get('locale') || 'ar';
     const isAr = locale === 'ar';
+
+    // Load local brand logo image as base64 (dark horizontal text layout logo for light bg)
+    let localLogoBase64: string | null = null;
+    try {
+      const logoPath = path.join(process.cwd(), 'public', 'شعار بدون خلفية-04.png');
+      if (fs.existsSync(logoPath)) {
+        const logoBuffer = fs.readFileSync(logoPath);
+        localLogoBase64 = `data:image/png;base64,${logoBuffer.toString('base64')}`;
+      }
+    } catch (e) {
+      console.error('Failed to load local brand logo:', e);
+    }
+
+    // Satori doesn't support automatic RTL word layout reordering. We reverse the order of word tokens for Arabic.
+    const formatArabicText = (text: string) => {
+      if (!text) return '';
+      return text.split(' ').reverse().join(' ');
+    };
+
+    const displayTitle = isAr ? formatArabicText(title) : title;
+    const displayDescription = isAr ? formatArabicText(description) : description;
 
     // Fetch Cairo/Inter fonts
     const fonts = await getFonts();
@@ -119,12 +78,12 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             width: '1200px',
             height: '630px',
-            backgroundColor: '#0a0b10',
+            backgroundColor: '#f6f6f6', // Light background oklch(0.9642 0 0) matching globals.css :root
             fontFamily: isAr ? 'Cairo' : 'Inter',
             overflow: 'hidden',
           }}
         >
-          {/* Top-Right Cyan Radial Glow */}
+          {/* Top-Right Cyan/Teal Radial Glow - oklch(0.52 0.0946 191.5521) */}
           <div
             style={{
               position: 'absolute',
@@ -133,7 +92,7 @@ export async function GET(request: NextRequest) {
               width: '700px',
               height: '700px',
               borderRadius: '350px',
-              background: 'radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0) 70%)',
+              background: 'radial-gradient(#14b8a614 0%, #14b8a600 70%)',
             }}
           />
 
@@ -146,19 +105,74 @@ export async function GET(request: NextRequest) {
               width: '700px',
               height: '700px',
               borderRadius: '350px',
-              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0) 70%)',
+              background: 'radial-gradient(#8b5cf60d 0%, #8b5cf600 70%)',
             }}
           />
 
-          {/* Inner glass border overlay */}
+          {/* Inner border overlay - matches oklch(0.8860 0.0069 277.1521) / #e2e8f0 */}
           <div
             style={{
               position: 'absolute',
               inset: '24px',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
+              border: '1px solid #e2e8f0',
               borderRadius: '16px',
             }}
           />
+
+          {/* Decorative Horizontal Architectural Line using native SVG to bypass Satori parser */}
+          <svg
+            width="1152px"
+            height="1px"
+            style={{
+              position: 'absolute',
+              top: '155px',
+              left: '24px',
+            }}
+          >
+            <defs>
+              <linearGradient id="horizontal-fade" x1={isAr ? "1" : "0"} y1="0" x2={isAr ? "0" : "1"} y2="0">
+                <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.02" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="0" x2="1152" y2="0" stroke="url(#horizontal-fade)" strokeWidth="1" />
+          </svg>
+
+          {/* Decorative Vertical Architectural Line using native SVG */}
+          <svg
+            width="1px"
+            height="582px"
+            style={{
+              position: 'absolute',
+              top: '24px',
+              ...(isAr ? { right: '310px' } : { left: '310px' }),
+            }}
+          >
+            <defs>
+              <linearGradient id="vertical-fade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.02" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="0" x2="0" y2="582" stroke="url(#vertical-fade)" strokeWidth="1" />
+          </svg>
+
+          {/* Crosshair at intersection */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '151px',
+              width: '9px',
+              height: '9px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              ...(isAr ? { right: '306px' } : { left: '306px' }),
+            }}
+          >
+            <div style={{ position: 'absolute', width: '9px', height: '1px', backgroundColor: '#14b8a64d' }} />
+            <div style={{ position: 'absolute', width: '1px', height: '9px', backgroundColor: '#14b8a64d' }} />
+          </div>
 
           {/* Main Layout Container */}
           <div
@@ -170,7 +184,6 @@ export async function GET(request: NextRequest) {
               width: '100%',
               height: '100%',
               padding: '70px 80px',
-              direction: isAr ? 'rtl' : 'ltr',
               alignItems: isAr ? 'flex-end' : 'flex-start',
             }}
           >
@@ -180,32 +193,53 @@ export async function GET(request: NextRequest) {
                 display: 'flex',
                 flexDirection: isAr ? 'row-reverse' : 'row',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
+                alignSelf: isAr ? 'flex-end' : 'flex-start',
               }}
             >
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '16px',
-                  background: 'linear-gradient(135deg, #0ea5e9, #8b5cf6)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <div style={{ width: '12px', height: '12px', borderRadius: '6px', backgroundColor: '#ffffff' }} />
-              </div>
-              <span
-                style={{
-                  fontSize: '24px',
-                  fontWeight: 700,
-                  color: '#ffffff',
-                  letterSpacing: isAr ? '0px' : '1px',
-                }}
-              >
-                {isAr ? 'شورى' : 'Shuru'}
-              </span>
+              {localLogoBase64 ? (
+                <img
+                  src={localLogoBase64}
+                  alt="Logo"
+                  style={{
+                    height: '56px',
+                    objectFit: 'contain',
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: isAr ? 'row-reverse' : 'row',
+                    alignItems: 'center',
+                    gap: '12px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '16px',
+                      backgroundColor: '#0ea5e9',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <div style={{ width: '12px', height: '12px', borderRadius: '6px', backgroundColor: '#ffffff' }} />
+                  </div>
+                  <span
+                    style={{
+                      fontSize: '24px',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      letterSpacing: isAr ? '0px' : '1px',
+                    }}
+                  >
+                    {isAr ? 'شورى' : 'Shuru'}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Body: Title and Description */}
@@ -222,27 +256,27 @@ export async function GET(request: NextRequest) {
                 style={{
                   fontSize: '56px',
                   fontWeight: 700,
-                  color: '#ffffff',
+                  color: '#0d111d', // Deep dark navy matching globals.css foreground
                   margin: '0 0 20px 0',
                   lineHeight: 1.25,
                   textAlign: isAr ? 'right' : 'left',
                 }}
               >
-                {title}
+                {displayTitle}
               </h1>
               {description ? (
                 <p
                   style={{
                     fontSize: '24px',
                     fontWeight: 400,
-                    color: '#94a3b8',
+                    color: '#334155', // Muted slate color for high readability in light theme
                     margin: '0',
                     lineHeight: 1.5,
                     maxWidth: '900px',
                     textAlign: isAr ? 'right' : 'left',
                   }}
                 >
-                  {description}
+                  {displayDescription}
                 </p>
               ) : null}
             </div>
@@ -254,13 +288,14 @@ export async function GET(request: NextRequest) {
                 flexDirection: isAr ? 'row-reverse' : 'row',
                 alignItems: 'center',
                 gap: '8px',
+                alignSelf: isAr ? 'flex-end' : 'flex-start',
               }}
             >
-              <div style={{ width: '16px', height: '2px', backgroundColor: '#0ea5e9' }} />
+              <div style={{ width: '16px', height: '2px', backgroundColor: '#14b8a6' }} />
               <span
                 style={{
                   fontSize: '18px',
-                  color: '#64748b',
+                  color: '#475569', // Dark grey footer text
                   fontWeight: 500,
                 }}
               >

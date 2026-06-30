@@ -1,4 +1,5 @@
 import { getGlobalSettings } from "@/strapi/global";
+import { getHeaderSettings } from "@/strapi/header";
 import { locales, hrefLang, defaultLocale, siteUrl, type Locale } from "@/lib/i18n";
 import { toAbsoluteUrl } from "@/lib/strapi";
 import type { Metadata } from "next";
@@ -23,13 +24,15 @@ export function getOptimizedOgImageUrl(
   url: string | null | undefined,
   title?: string,
   description?: string,
-  locale?: string
+  locale?: string,
+  logoUrl?: string | null
 ): string | null {
   if (!url) {
     const params = new URLSearchParams();
     if (title) params.set('title', title);
     if (description) params.set('description', description);
     if (locale) params.set('locale', locale);
+    if (logoUrl) params.set('logoUrl', logoUrl);
     return `${siteUrl}/api/og?${params.toString()}`;
   }
   if (
@@ -39,7 +42,7 @@ export function getOptimizedOgImageUrl(
   ) {
     return url;
   }
-  return `${siteUrl}/api/og?url=${encodeURIComponent(url)}`;
+  return `${siteUrl}/api/og/resize?url=${encodeURIComponent(url)}`;
 }
 
 export async function buildMetadata({
@@ -71,11 +74,14 @@ export async function buildMetadata({
   const finalTitle = title ? title : (globalData?.seoTitle || siteName);
   const finalDescription = description || globalData?.seoDescription || globalData?.siteDescription || "";
 
+  const headerData = await getHeaderSettings(locale);
+  const logoUrl = headerData?.darkLogoUrl || headerData?.lightLogoUrl;
+
   const ogImageUrl =
     toAbsoluteUrl(ogImage?.url) ||
     globalData?.ogImage?.url;
 
-  const finalOgImageUrl = getOptimizedOgImageUrl(ogImageUrl, finalTitle, finalDescription, locale);
+  const finalOgImageUrl = getOptimizedOgImageUrl(ogImageUrl, finalTitle, finalDescription, locale, logoUrl);
   const isOptimized = finalOgImageUrl && finalOgImageUrl.includes("/api/og");
 
   const robots = noIndex ? { index: false, follow: false } : undefined;
