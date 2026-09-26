@@ -39,7 +39,7 @@ const defaultLabels = {
     subtitle: 'Stay updated with the latest articles, news, and perspectives.',
     articles: 'Articles',
     news: 'News',
-    magazine: 'Magazine',
+    magazine: 'Publication',
     majlis: 'Majlis',
     empty: 'No items found matching your filters.',
   },
