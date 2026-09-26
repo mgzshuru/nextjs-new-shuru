@@ -59,7 +59,7 @@ export default async function Page({ params, searchParams }: Props) {
 
       {issues.length === 0 ? (
         <div className="text-center py-12 border border-dashed rounded-xl bg-muted/10">
-          <p className="text-muted-foreground">{locale === 'ar' ? 'لم يتم العثور على أعداد مجلة.' : 'No magazine issues found.'}</p>
+          <p className="text-muted-foreground">{locale === 'ar' ? 'لم يتم العثور على إصدارات.' : 'No publicationس issues found.'}</p>
         </div>
       ) : (
         <>
