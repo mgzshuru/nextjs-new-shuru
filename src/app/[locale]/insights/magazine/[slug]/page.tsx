@@ -56,11 +56,11 @@ export default async function MagazineIssuePage({ params }: Props) {
   }
 
   const issueNumberText = issue.issue_number
-    ? (locale === 'ar' ? `العدد #${issue.issue_number}` : `Issue #${issue.issue_number}`)
+    ? (locale === 'ar' ? `الإصدار #${issue.issue_number}` : `Issue #${issue.issue_number}`)
     : (locale === 'ar' ? 'عدد المجلة' : 'Magazine Issue');
 
   const downloadPdfText = locale === 'ar' ? 'تحميل النسخة الرقمية' : 'Download Digital Copy';
-  const readPdfText = locale === 'ar' ? 'قراءة المجلة' : 'Read Magazine';
+  const readPdfText = locale === 'ar' ? 'قراءة الإصدار' : 'Read Publication';
   const articlesInIssueText = locale === 'ar' ? 'مقالات في هذا العدد' : 'Articles in this Issue';
   const exploreOtherText = locale === 'ar' ? 'استكشف أعداداً أخرى' : 'Explore Other Issues';
   const browseAllText = locale === 'ar' ? 'تصفح جميع الأعداد' : 'Browse All Issues';
