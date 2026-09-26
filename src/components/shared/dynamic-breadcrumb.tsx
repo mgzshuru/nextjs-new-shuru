@@ -57,7 +57,7 @@ export function DynamicBreadcrumb({ locale }: DynamicBreadcrumbProps) {
     'terms': { en: 'Terms & Conditions', ar: 'الشروط والأحكام' },
     'privacy': { en: 'Privacy Policy', ar: 'سياسة الخصوصية' },
     'success-stories': { en: 'Success Stories', ar: 'قصص النجاح' },
-    'magazine': { en: 'Magazine', ar: 'المجلة' },
+    'magazine': { en: 'Publications', ar: 'الإصدارات' },
     'majlis': { en: 'Majlis', ar: 'المجلس' },
     'news': { en: 'News', ar: 'الأخبار' },
     'podcasts': { en: 'Podcasts', ar: 'البودكاست' },
