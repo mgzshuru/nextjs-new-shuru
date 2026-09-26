@@ -29,27 +29,27 @@
     "categories": "Categories",
     "featured": "Featured",
     "readMore": "Read More",
-    "latestIssue": "Latest Issue",
-    "readLatest": "Read Latest Issue",
+    "latestIssue": "Latest Publication",
+    "readLatest": "Read Latest Publication",
     "empty": "No articles found in this category.",
     "all": "All",
     "tabs": {
       "articles": "Articles",
       "news": "News",
-      "magazine": "Magazine",
+      "magazine": "Publications",
       "majlis": "Majlis",
       "podcasts": "Podcasts",
-      "subtitle": "Stay updated with the latest insights."
+      "subtitle": "Executive papers, magazines, and practical guides from SHURU."
     },
     "magazineSingle": {
       "issueNumber": "Issue {number}",
       "publishDate": "Publish Date: {date}",
-      "readPdf": "Read Magazine PDF",
-      "downloadPdf": "Download Magazine PDF",
-      "share": "Share this issue",
-      "exploreOther": "Explore other issues",
-      "browseAll": "Browse all issues",
-      "articlesInIssue": "Articles in this issue",
+      "readPdf": "Read Publication PDF",
+      "downloadPdf": "Download Publication PDF",
+      "share": "Share this publication",
+      "exploreOther": "Explore other publications",
+      "browseAll": "Browse all publications",
+      "articlesInIssue": "Articles in this publication",
       "back": "Back"
     }
   },
