@@ -39,7 +39,7 @@ const defaultLabels = {
     subtitle: 'Stay updated with the latest articles, news, and perspectives.',
     articles: 'Articles',
     news: 'News',
-    magazine: 'Publication',
+    magazine: 'Publications',
     majlis: 'Majlis',
     empty: 'No items found matching your filters.',
   },
@@ -49,7 +49,7 @@ const defaultLabels = {
     subtitle: 'ابق على اطلاع بأحدث المقالات والأخبار والرؤى.',
     articles: 'مقالات',
     news: 'أخبار',
-    magazine: 'مجلة',
+    magazine: 'إصدارات',
     majlis: 'مجلس',
     empty: 'لم يتم العثور على عناصر تطابق اختياراتك.',
   }
