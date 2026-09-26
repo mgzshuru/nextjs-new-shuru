@@ -36,16 +36,16 @@
     "tabs": {
       "articles": "المقالات",
       "news": "الأخبار",
-      "magazine": "المجلة",
+      "magazine": "الإصدارات",
       "majlis": "المجلس",
       "podcasts": "البودكاست",
-      "subtitle": "ابق على اطلاع بأحدث الرؤى."
+      "subtitle": "أوراق تنفيذية، مجلات، وأدلة عملية من شروع."
     },
     "magazineSingle": {
-      "issueNumber": "العدد {number}",
+      "issueNumber": "الإصدار {number}",
       "publishDate": "تاريخ النشر: {date}",
-      "readPdf": "قراءة المجلة PDF",
-      "downloadPdf": "تحميل المجلة PDF",
+      "readPdf": "قراءة الإصدار PDF",
+      "downloadPdf": "تحميل العدد PDF",
       "share": "شارك هذا العدد",
       "exploreOther": "استكشف أعداد أخرى",
       "browseAll": "تصفح جميع الأعداد",
