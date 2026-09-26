@@ -77,7 +77,7 @@ export function SimplePdfViewer({
             </div>
             <div>
               <h2 className="text-lg font-bold text-neutral-100 mb-2">
-                {isRtl ? "عرض ملف المجلة" : "View Magazine PDF"}
+                {isRtl ? "عرض ملف الإصدار" : "View Publication PDF"}
               </h2>
               <p className="text-sm text-neutral-400 leading-relaxed">
                 {isRtl 
