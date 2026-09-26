@@ -62,8 +62,8 @@ export default async function MagazineIssuePage({ params }: Props) {
   const downloadPdfText = locale === 'ar' ? 'تحميل النسخة الرقمية' : 'Download Digital Copy';
   const readPdfText = locale === 'ar' ? 'قراءة الإصدار' : 'Read Publication';
   const articlesInIssueText = locale === 'ar' ? 'مقالات في هذا الإصدار' : 'Articles in this publications';
-  const exploreOtherText = locale === 'ar' ? 'استكشف إصدارات أخرى' : 'Explore Other Publicationss';
-  const browseAllText = locale === 'ar' ? 'تصفح جميع الإصدارات' : 'Browse All Publicationss';
+  const exploreOtherText = locale === 'ar' ? 'استكشف إصدارات أخرى' : 'Explore Other Publications';
+  const browseAllText = locale === 'ar' ? 'تصفح جميع الإصدارات' : 'Browse All Publications';
   const shareText = locale === 'ar' ? 'مشاركة' : 'Share';
 
   const labels = {
