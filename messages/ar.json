@@ -29,8 +29,8 @@
     "categories": "الفئات",
     "featured": "مميز",
     "readMore": "اقرأ المزيد",
-    "latestIssue": "العدد الأخير",
-    "readLatest": "اقرأ العدد الأخير",
+    "latestIssue": "الإصدار الأخير",
+    "readLatest": "اقرأ الإصدار الأخير",
     "empty": "لم يتم العثور على مقالات في هذه الفئة.",
     "all": "الكل",
     "tabs": {
@@ -45,11 +45,11 @@
       "issueNumber": "الإصدار {number}",
       "publishDate": "تاريخ النشر: {date}",
       "readPdf": "قراءة الإصدار PDF",
-      "downloadPdf": "تحميل العدد PDF",
-      "share": "شارك هذا العدد",
-      "exploreOther": "استكشف أعداد أخرى",
-      "browseAll": "تصفح جميع الأعداد",
-      "articlesInIssue": "مقالات هذا العدد",
+      "downloadPdf": "تحميل الإصدار PDF",
+      "share": "شارك هذا الإصدار",
+      "exploreOther": "استكشف إصدارات أخرى",
+      "browseAll": "تصفح جميع الإصدارات",
+      "articlesInIssue": "مقالات هذا الإصدار",
       "back": "رجوع"
     }
   },
